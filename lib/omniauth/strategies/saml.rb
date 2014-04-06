@@ -29,19 +29,19 @@ puts request.params.inspect
         unless request.params['SAMLResponse']
           raise OmniAuth::Strategies::SAML::ValidationError.new("SAML response missing")
         end
-
+        puts "HELLO WORLD"
         response = Onelogin::Saml::Response.new(request.params['SAMLResponse'], options)
         response.settings = Onelogin::Saml::Settings.new(options)
 
         @name_id = response.name_id
         @attributes = response.attributes
-
+        puts "HERE WE ARE"
         if @name_id.nil? || @name_id.empty?
           raise OmniAuth::Strategies::SAML::ValidationError.new("SAML response missing 'name_id'")
         end
-
+        puts "Now we shall validate"
         response.validate!
-
+        puts "VALIDATED"
         super
       rescue OmniAuth::Strategies::SAML::ValidationError
         fail!(:invalid_ticket, $!)
